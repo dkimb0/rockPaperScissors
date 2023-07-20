@@ -4,9 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src=“code.js”></script>
 </head>
 <body>
+    <script>
+        //function getComputerChoice, randomly selects R, P or S
+        //function playRound(playerSelection, computerSelection)
+        //  outputs: "You lose! Paper beats Rock"
+        //  make playerSelection case insensitive (everything toLower)
+        //  return the output
+    
+    
+        function getComputerChoice() {
+            //Make random number between 1 and 3
+            let comNumChoice = Math.floor(Math.random() * 3) + 1;
+            //for each number, set R, P or S
+            if (comNumChoice === 1) {
+                return 'rock';
+            } else if (comNumChoice === 2) {
+                return 'paper';
+            } else {
+                return 'scissors';
+            }
+        }
 
+        let compSelection = getComputerChoice();
+        console.log(`computerSelection: ${compSelection}`);
+
+        //make playerSelection query, make lowercase to make case insensitive
+        let playerSelection = prompt('Enter your choice:', '').toLowerCase();
+        console.log(`playerSelection: ${playerSelection}`);
+
+    </script>
 </body>
 </html>
