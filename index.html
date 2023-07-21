@@ -8,31 +8,47 @@
 <body>
     <script>
         //function getComputerChoice, randomly selects R, P or S
-        //function playRound(playerSelection, computerSelection)
-        //  outputs: "You lose! Paper beats Rock"
-        //  make playerSelection case insensitive (everything toLower)
-        //  return the output
-    
-    
         function getComputerChoice() {
             //Make random number between 1 and 3
             let comNumChoice = Math.floor(Math.random() * 3) + 1;
             //for each number, set R, P or S
             if (comNumChoice === 1) {
-                return 'rock';
+                return 'Rock';
             } else if (comNumChoice === 2) {
-                return 'paper';
+                return 'Paper';
             } else {
-                return 'scissors';
+                return 'Scissors';
             }
         }
 
-        let compSelection = getComputerChoice();
-        console.log(`computerSelection: ${compSelection}`);
 
-        //make playerSelection query, make lowercase to make case insensitive
-        let playerSelection = prompt('Enter your choice:', '').toLowerCase();
-        console.log(`playerSelection: ${playerSelection}`);
+        //function playRound, logic block to determine winner
+        function playRound(compSel, playerSel) {
+            //set case insensitivity by setting playerSel to same format as compSel
+            let playSelCaseInsen = playerSel.charAt(0).toUpperCase() + playerSel.slice(1).toLowerCase();
+
+            //comparative block to compare comp to player selections
+            //block 1: if compSel === playerSel, draw
+            //block 2: player wins
+            //block 3: else, comp wins
+            if (compSel === playSelCaseInsen) {
+                return "Draw!"
+            } else if ((compSel === 'Rock' && playSelCaseInsen === 'Paper')
+                || (compSel === 'Paper' && playSelCaseInsen === 'Scissors')
+                || (compSel === 'Scissors' && playSelCaseInsen === 'Rock')){
+                return `You win! ${playSelCaseInsen} beats ${compSel}`;
+            } else {
+                return `You lose! ${compSel} beats ${playSelCaseInsen}`;
+            }
+        }
+
+        //initialize values
+        let compSel = getComputerChoice();
+        let playerSel = prompt('Enter your choice (default is Rock):');
+        
+        //print round to console
+        console.log(playRound(compSel, playerSel));
+
 
     </script>
 </body>
