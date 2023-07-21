@@ -22,7 +22,7 @@
         }
 
 
-        //function playRound, logic block to determine winner
+        //function playRound, logic block to determine winner of each round
         function playRound(compSel, playerSel) {
             //set case insensitivity by setting playerSel to same format as compSel
             let playSelCaseInsen = playerSel.charAt(0).toUpperCase() + playerSel.slice(1).toLowerCase();
@@ -32,24 +32,58 @@
             //block 2: player wins
             //block 3: else, comp wins
             if (compSel === playSelCaseInsen) {
-                return "Draw!"
+                console.log('Draw!')
+                return "d";
             } else if ((compSel === 'Rock' && playSelCaseInsen === 'Paper')
                 || (compSel === 'Paper' && playSelCaseInsen === 'Scissors')
                 || (compSel === 'Scissors' && playSelCaseInsen === 'Rock')){
-                return `You win! ${playSelCaseInsen} beats ${compSel}`;
+                console.log(`You win! ${playSelCaseInsen} beats ${compSel}`);
+                return "w";
             } else {
-                return `You lose! ${compSel} beats ${playSelCaseInsen}`;
+                console.log(`You lose! ${compSel} beats ${playSelCaseInsen}`);
+                return "l";
+            }
+        }
+        
+
+        //function game(), runs 5 times and counts wins/losses
+        function game() {
+            //initialize wincount:
+            let winCount = 0;
+            let loseCount = 0;
+            for (i = 0; i < 5; i++) {            
+                //initialize round values
+                let compSel = getComputerChoice();
+                let playerSel = prompt('Enter your choice (default is Rock):');
+                
+                //run playRound
+                let currentRound = playRound(compSel, playerSel);
+                
+                //count
+                if (currentRound === "w") {
+                    ++winCount;
+                } else if (currentRound === "l") {
+                    ++loseCount;
+                }
+            }
+            announceWinner(winCount, loseCount);
+            
+        }
+
+
+        //function announces win/loss
+        function announceWinner(winCount, loseCount) {
+            if (winCount === loseCount){
+                console.log(`Draw! ${winCount} to ${loseCount}`);
+            } else if (winCount > loseCount){
+                console.log(`You win ${winCount} to ${loseCount}!`);
+            } else {
+                console.log(`You lost ${winCount} to ${loseCount}!`);
             }
         }
 
-        //initialize values
-        let compSel = getComputerChoice();
-        let playerSel = prompt('Enter your choice (default is Rock):');
-        
-        //print round to console
-        console.log(playRound(compSel, playerSel));
-
-
+        //run game function
+        game();
     </script>
 </body>
 </html>
