@@ -9,12 +9,19 @@
     <button id="Rock">Rock</button>
     <button id="Paper">Paper</button>
     <button id="Scissors">Scissors</button>
-    <div></div>
+    <div class='latestResult'></div>
+    <div class="currentScore"></div>
+    <div class="finalResult"></div>
 
     
     <script>
         const buttons = document.querySelectorAll('button');
-        const div = document.querySelector('div');
+        const div = document.querySelector('div.latestResult');
+        const currentScore = document.querySelector('div.currentScore');
+        const finalResult = document.querySelector('div.finalResult');
+
+
+        finalResult.textContent = '';
 
         let playerWins = 0;
         let compWins = 0;
@@ -42,37 +49,40 @@
             //block 2: player wins
             //block 3: else, comp wins
             if (compSel === playSel) {
-                div.textContent = `Draw! Player: ${playerWins} Computer: ${compWins}`;
-                return;
+                div.textContent = `Draw! You both picked ${compSel}.`
+                currentScore.textContent = `Player: ${playerWins} Computer: ${compWins}`;
+
             } else if ((compSel === 'Rock' && playSel === 'Paper')
                 || (compSel === 'Paper' && playSel === 'Scissors')
                 || (compSel === 'Scissors' && playSel === 'Rock')){
                 
                 ++playerWins;
-                div.textContent = `You win! ${playSel} beats ${compSel}. 
-                Player: ${playerWins} Computer: ${compWins}`;
-                return;
+                div.textContent = `You win! ${playSel} beats ${compSel}.`;
+                currentScore.textContent = `Player: ${playerWins} Computer: ${compWins}`;
+                if (playerWins === 5){
+                    finalResult.textContent = 'Player wins!';
+                    playerWins = 0;
+                    compWins = 0;
+                }
+
             } else {
                 ++compWins;
-                div.textContent = `You lose! ${compSel} beats ${playSel}. 
-                Player: ${playerWins} Computer: ${compWins}`;
-                return;
+                div.textContent = `You lose! ${compSel} beats ${playSel}.`
+                currentScore.textContent = `Player: ${playerWins} Computer: ${compWins}`;
+                if (compWins === 5){
+                    finalResult.textContent = 'Computer wins!';
+                    playerWins = 0;
+                    compWins = 0;
+                }
             }
         }
 
         
         const playerSelect = buttons.forEach((button) => {
             button.addEventListener('click', () => {
+                finalResult.textContent = '';
                 playRound(getComputerChoice(), button.id);
-                if ((playerWins === 5)){
-                    div.textContent = 'Player wins!';
-                    playerWins = 0;
-                    compWins = 0;
-                } else if (compWins === 5){
-                    div.textContent = 'Computer wins!';
-                    playerWins = 0;
-                    compWins = 0;
-                }
+
             })
         });
 
