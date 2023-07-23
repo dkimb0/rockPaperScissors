@@ -6,7 +6,19 @@
     <title>Document</title>
 </head>
 <body>
+    <button id="Rock">Rock</button>
+    <button id="Paper">Paper</button>
+    <button id="Scissors">Scissors</button>
+    <div></div>
+
+    
     <script>
+        const buttons = document.querySelectorAll('button');
+        const div = document.querySelector('div');
+
+        let playerWins = 0;
+        let compWins = 0;
+        
         //function getComputerChoice, randomly selects R, P or S
         function getComputerChoice() {
             //Make random number between 1 and 3
@@ -23,67 +35,49 @@
 
 
         //function playRound, logic block to determine winner of each round
-        function playRound(compSel, playerSel) {
-            //set case insensitivity by setting playerSel to same format as compSel
-            let playSelCaseInsen = playerSel.charAt(0).toUpperCase() + playerSel.slice(1).toLowerCase();
-
+        function playRound(compSel, playSel) {
+            
             //comparative block to compare comp to player selections
             //block 1: if compSel === playerSel, draw
             //block 2: player wins
             //block 3: else, comp wins
-            if (compSel === playSelCaseInsen) {
-                console.log('Draw!')
-                return "d";
-            } else if ((compSel === 'Rock' && playSelCaseInsen === 'Paper')
-                || (compSel === 'Paper' && playSelCaseInsen === 'Scissors')
-                || (compSel === 'Scissors' && playSelCaseInsen === 'Rock')){
-                console.log(`You win! ${playSelCaseInsen} beats ${compSel}`);
-                return "w";
+            if (compSel === playSel) {
+                div.textContent = `Draw! Player: ${playerWins} Computer: ${compWins}`;
+                return;
+            } else if ((compSel === 'Rock' && playSel === 'Paper')
+                || (compSel === 'Paper' && playSel === 'Scissors')
+                || (compSel === 'Scissors' && playSel === 'Rock')){
+                
+                ++playerWins;
+                div.textContent = `You win! ${playSel} beats ${compSel}. 
+                Player: ${playerWins} Computer: ${compWins}`;
+                return;
             } else {
-                console.log(`You lose! ${compSel} beats ${playSelCaseInsen}`);
-                return "l";
+                ++compWins;
+                div.textContent = `You lose! ${compSel} beats ${playSel}. 
+                Player: ${playerWins} Computer: ${compWins}`;
+                return;
             }
         }
+
         
-
-        //function game(), runs 5 times and counts wins/losses
-        function game() {
-            //initialize wincount:
-            let winCount = 0;
-            let loseCount = 0;
-            for (i = 0; i < 5; i++) {            
-                //initialize round values
-                let compSel = getComputerChoice();
-                let playerSel = prompt('Enter your choice (default is Rock):');
-                
-                //run playRound
-                let currentRound = playRound(compSel, playerSel);
-                
-                //count
-                if (currentRound === "w") {
-                    ++winCount;
-                } else if (currentRound === "l") {
-                    ++loseCount;
+        const playerSelect = buttons.forEach((button) => {
+            button.addEventListener('click', () => {
+                playRound(getComputerChoice(), button.id);
+                if ((playerWins === 5)){
+                    div.textContent = 'Player wins!';
+                    playerWins = 0;
+                    compWins = 0;
+                } else if (compWins === 5){
+                    div.textContent = 'Computer wins!';
+                    playerWins = 0;
+                    compWins = 0;
                 }
-            }
-            announceWinner(winCount, loseCount);
-            
-        }
+            })
+        });
 
-
-        //function announces win/loss
-        function announceWinner(winCount, loseCount) {
-            if (winCount === loseCount){
-                console.log(`Draw! ${winCount} to ${loseCount}`);
-            } else if (winCount > loseCount){
-                console.log(`You win ${winCount} to ${loseCount}!`);
-            } else {
-                console.log(`You lost ${winCount} to ${loseCount}!`);
-            }
-        }
-
-        //run game function
-        game();
+        
+    
     </script>
 </body>
 </html>
